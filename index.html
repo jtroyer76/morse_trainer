@@ -18,6 +18,7 @@
     <button data-view="drill" class="active">Drill</button>
     <button data-view="stats">Stats</button>
     <button data-view="settings">Settings</button>
+    <button data-view="help">Help</button>
   </nav>
 </header>
 
@@ -102,6 +103,46 @@
     <label class="check"><input type="checkbox" id="set-showanswer"> Show correct character after a miss</label>
     <label class="check"><input type="checkbox" id="set-sound"> Sound feedback on wrong answer</label>
     <p class="hint">Koch order: <span id="koch-order"></span></p>
+  </section>
+  <section id="view-help" class="view help">
+    <h2>What this is</h2>
+    <p>A drill for instant character recognition: hearing a Morse character and knowing it without counting dits and dahs. Characters are sent fast on purpose. The app measures how long you take to answer and uses that to find the characters you are still decoding.</p>
+
+    <h2>Drilling</h2>
+    <ul>
+      <li>Tap <b>Start</b>. A character plays. Tap it on the keypad, or type it on a keyboard.</li>
+      <li>Green means right. Red shows the character you should have tapped. A stopwatch means you ran out of time.</li>
+      <li><b>Replay</b> plays the last character again. It is not scored.</li>
+      <li>A session is a fixed number of characters, set in Settings. Keep sessions short; a few minutes of full attention beats a long sloppy run.</li>
+    </ul>
+
+    <h2>Levels</h2>
+    <p>The level is how many characters are in play, taken in Koch order: K M R S U A P T L O W I . N J E F 0 Y , V G 5 / Q 9 Z H 3 8 B ? 4 2 7 C 1 D 6 X. There are two ways to use it:</p>
+    <ul>
+      <li><b>Koch method.</b> Start at level 2. When every character in play has enough trials, 90% accuracy, and a reaction time close to your fastest, a banner on the Drill tab offers to add the next character. Tap <b>Add it</b>. Repeat until you have them all.</li>
+      <li><b>All at once.</b> If you already know the code and want to find your weak spots, tap <b>All characters</b> in Settings. The app drills everything and the Stats tab shows what lags.</li>
+    </ul>
+    <p>You can also drag the level slider in Settings to any point. Punctuation can be switched off to keep just letters and digits.</p>
+
+    <h2>Warm-up and weighting</h2>
+    <p>New characters get an even number of trials first, picked at random, so every character has a fair baseline. After that, characters you miss or answer slowly come up more often. The warm-up count is in Settings.</p>
+
+    <h2>Focus mode</h2>
+    <p>Once the warm-up is done, the <b>Focus</b> checkbox on the Drill tab limits the drill to your weakest characters, with a few random others mixed in so you cannot guess. How many of each is set in Settings.</p>
+
+    <h2>Reading the Stats tab</h2>
+    <ul>
+      <li><b>Median RT</b> is your typical reaction time for that character, measured from the end of its last element to your tap. It only counts correct answers.</li>
+      <li><b>vs floor</b> is how far that sits above your fastest character. Green is within 150 ms, which counts as instant. Red is more than 400 ms, which means you are still working it out.</li>
+      <li><b>Acc</b> is accuracy over the last 20 trials.</li>
+    </ul>
+    <p>The absolute times include finding the key, so compare characters against each other, not against a stopwatch. Times on a phone will be slower than on a keyboard.</p>
+
+    <h2>Speed</h2>
+    <p>Start at 25 WPM. Below about 20 the brain can count elements and instant recognition never forms. Raise the speed a few WPM at a time once the current speed feels easy. Reaction times are only comparable within one speed.</p>
+
+    <h2>Your data</h2>
+    <p>Stats stay in this browser on this device. Nothing is sent anywhere. <b>Export JSON</b> on the Stats tab saves a copy. The app works offline once it has loaded, and can be added to your home screen.</p>
   </section>
 </main>
 

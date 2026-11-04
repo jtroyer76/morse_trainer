@@ -42,3 +42,7 @@ label output { color: var(--fg); float: right; }
 label.check { color: var(--fg); } label.check input { margin-right: 8px; }
 .hint { color: var(--muted); font-size: 14px; }
 .focus-row { margin: 0 0 10px; }
+.help h2 { font-size: 16px; margin: 18px 0 6px; color: var(--accent); }
+.help p, .help li { font-size: 15px; line-height: 1.45; color: var(--fg); }
+.help ul { padding-left: 20px; margin: 6px 0; }
+.help b { font-weight: 600; }
