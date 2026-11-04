@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#111418">
+<title>ICR Trainer</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>ICR Trainer</h1>
+  <nav>
+    <button data-view="drill" class="active">Drill</button>
+    <button data-view="stats">Stats</button>
+    <button data-view="settings">Settings</button>
+  </nav>
+</header>
+
+<main>
+  <section id="view-drill" class="view active">
+    <div class="status-row">
+      <span id="session-progress">0 / 0</span>
+      <span id="session-acc">—</span>
+      <span id="session-rt">—</span>
+    </div>
+    <div id="prompt" class="prompt">
+      <div id="prompt-main">Tap Start</div>
+      <div id="prompt-sub">Level <span id="level-label">1</span><span id="focus-tag" class="hidden"> &middot; Focus</span></div>
+    </div>
+    <div class="controls">
+      <button id="btn-start" class="primary">Start</button>
+      <button id="btn-stop" disabled>Stop</button>
+      <button id="btn-replay" disabled>Replay</button>
+    </div>
+    <label class="check focus-row"><input type="checkbox" id="set-focus"> Focus on weak characters <span id="focus-note" class="hint"></span></label>
+    <div id="keypad" class="keypad"></div>
+    <div id="promote" class="promote hidden">
+      <span id="promote-text"></span>
+      <button id="btn-promote">Add it</button>
+    </div>
+  </section>
+
+  <section id="view-stats" class="view">
+    <p class="hint">Median reaction time is measured from the end of the last element. The floor is your fastest character. Characters well above the floor are not yet in ICR.</p>
+    <table id="stats-table">
+      <thead><tr><th>Char</th><th>Trials</th><th>Acc</th><th>Median RT</th><th>vs floor</th><th></th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="controls">
+      <button id="btn-export">Export JSON</button>
+      <button id="btn-reset" class="danger">Reset all stats</button>
+    </div>
+  </section>
+
+  <section id="view-settings" class="view">
+    <label>Level (characters in play)
+      <input type="range" id="set-level" min="2" max="40" step="1">
+      <output id="set-level-out"></output>
+      <button id="btn-all" type="button" style="margin-top:6px">All characters</button>
+    </label>
+    <label class="check"><input type="checkbox" id="set-punct"> Include punctuation ( . , ? / )</label>
+    <label>Character speed (WPM)
+      <input type="range" id="set-wpm" min="18" max="40" step="1">
+      <output id="set-wpm-out"></output>
+    </label>
+    <label>Tone (Hz)
+      <input type="range" id="set-tone" min="400" max="1000" step="10">
+      <output id="set-tone-out"></output>
+    </label>
+    <label>Answer timeout (ms)
+      <input type="range" id="set-timeout" min="1000" max="5000" step="250">
+      <output id="set-timeout-out"></output>
+    </label>
+    <label>Gap after answer (ms)
+      <input type="range" id="set-gap" min="200" max="2000" step="100">
+      <output id="set-gap-out"></output>
+    </label>
+    <label>Even trials per character before weighting kicks in
+      <input type="range" id="set-warmup" min="0" max="30" step="1">
+      <output id="set-warmup-out"></output>
+    </label>
+    <label>Focus mode: number of weak characters
+      <input type="range" id="set-focuscount" min="3" max="20" step="1">
+      <output id="set-focuscount-out"></output>
+    </label>
+    <label>Focus mode: number of random other characters mixed in
+      <input type="range" id="set-focusdecoys" min="0" max="10" step="1">
+      <output id="set-focusdecoys-out"></output>
+    </label>
+    <label>Characters per session
+      <input type="range" id="set-session" min="20" max="200" step="10">
+      <output id="set-session-out"></output>
+    </label>
+    <label>Keypad layout
+      <select id="set-layout"><option value="qwerty">QWERTY</option><option value="koch">Koch order</option></select>
+    </label>
+    <label class="check"><input type="checkbox" id="set-showanswer"> Show correct character after a miss</label>
+    <label class="check"><input type="checkbox" id="set-sound"> Sound feedback on wrong answer</label>
+    <p class="hint">Koch order: <span id="koch-order"></span></p>
+  </section>
+</main>
+
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    // When a new version is installed, reload once so the user gets it.
+    reg.addEventListener('updatefound', () => {
+      const nw = reg.installing;
+      nw && nw.addEventListener('statechange', () => {
+        if (nw.state === 'activated' && navigator.serviceWorker.controller) location.reload();
+      });
+    });
+  }).catch(() => {});
+}
+</script>
+</body>
+</html>
