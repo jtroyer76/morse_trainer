@@ -19,7 +19,7 @@ const PROMOTE_RT_MARGIN = 150; // ms above floor still counts as ICR
 
 const DEFAULTS = {
   level: 2, wpm: 25, tone: 650, timeout: 2500, gap: 600, session: 60,
-  warmup: 10, focus: false, focusCount: 10, focusDecoys: 3, layout: 'qwerty', showAnswer: true, soundFeedback: true, punctuation: true,
+  warmup: 10, focus: false, focusCount: 10, focusDecoys: 3, layout: 'qwerty', autoPromote: true, onboarded: false, showAnswer: true, soundFeedback: true, punctuation: true,
 };
 
 const settings = Object.assign({}, DEFAULTS, load('icr.settings', {}));
@@ -184,7 +184,23 @@ function stopSession() {
   $('btn-start').disabled = false; $('btn-stop').disabled = true; $('btn-replay').disabled = true;
   $('prompt-main').textContent = drill.count ? 'Done' : 'Tap Start';
   $('prompt-main').className = '';
+  if (drill.count && settings.autoPromote && promotionReady()) {
+    const added = promote();
+    $('prompt-main').textContent = 'New: ' + added;
+    $('prompt-main').className = 'good';
+    $('prompt-sub-note').textContent = 'Level ' + settings.level + '. Listen, then Start.';
+    setTimeout(() => playChar(added), 400);
+    setTimeout(() => { $('prompt-sub-note').textContent = ''; }, 6000);
+  }
   showPromote();
+}
+function promote() {
+  const next = KOCH.slice(settings.level).find(c => settings.punctuation || !PUNCT.has(c));
+  settings.level = KOCH.indexOf(next) + 1;
+  save('icr.settings', settings);
+  $('set-level').value = settings.level; $('set-level-out').textContent = settings.level;
+  buildKeypad(); updateFocusTag();
+  return next;
 }
 function nextChar() {
   if (!drill.running) return;
@@ -257,7 +273,7 @@ function updateFocusTag() {
 }
 function showPromote() {
   const box = $('promote');
-  if (promotionReady()) {
+  if (!settings.autoPromote && promotionReady()) {
     $('promote-text').textContent = 'All ' + settings.level + ' characters look solid. Next: ' + KOCH[settings.level];
     box.classList.remove('hidden');
   } else box.classList.add('hidden');
@@ -345,6 +361,7 @@ function bindCheck(id, key) {
     settings[key] = el.checked; save('icr.settings', settings);
     if (key === 'punctuation') { buildKeypad(); showPromote(); updateFocusTag(); }
     if (key === 'focus') updateFocusTag();
+    if (key === 'autoPromote') showPromote();
   });
 }
 
@@ -354,7 +371,7 @@ function init() {
   bindSetting('timeout', 'timeout'); bindSetting('warmup', 'warmup'); bindSetting('gap', 'gap'); bindSetting('session', 'session');
   $('set-layout').value = settings.layout;
   $('set-layout').addEventListener('change', () => { settings.layout = $('set-layout').value; save('icr.settings', settings); buildKeypad(); });
-  bindCheck('showanswer', 'showAnswer'); bindCheck('sound', 'soundFeedback'); bindCheck('punct', 'punctuation'); bindCheck('focus', 'focus'); bindSetting('focuscount', 'focusCount'); bindSetting('focusdecoys', 'focusDecoys');
+  bindCheck('showanswer', 'showAnswer'); bindCheck('autopromote', 'autoPromote'); bindCheck('sound', 'soundFeedback'); bindCheck('punct', 'punctuation'); bindCheck('focus', 'focus'); bindSetting('focuscount', 'focusCount'); bindSetting('focusdecoys', 'focusDecoys');
   $('koch-order').textContent = KOCH.join(' ');
 
   $('btn-start').addEventListener('click', startSession);
@@ -387,5 +404,20 @@ function init() {
     if (b.dataset.view === 'stats') renderStats();
   }));
   showPromote(); updateFocusTag();
+
+  if (!settings.onboarded) $('onboard').classList.remove('hidden');
+  const finishOnboard = () => {
+    settings.onboarded = true; save('icr.settings', settings);
+    $('onboard').classList.add('hidden');
+    $('set-level').value = settings.level; $('set-level-out').textContent = settings.level;
+    $('set-autopromote').checked = settings.autoPromote;
+    buildKeypad(); showPromote(); updateFocusTag();
+  };
+  $('btn-onboard-learn').addEventListener('click', () => {
+    settings.level = 2; settings.autoPromote = true; finishOnboard();
+  });
+  $('btn-onboard-know').addEventListener('click', () => {
+    settings.level = KOCH.length; settings.autoPromote = false; finishOnboard();
+  });
 }
 init();

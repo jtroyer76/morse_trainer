@@ -22,6 +22,17 @@
   </nav>
 </header>
 
+<div id="onboard" class="onboard hidden">
+  <div class="card">
+    <h2>Welcome</h2>
+    <p>Where are you starting from?</p>
+    <button id="btn-onboard-learn" class="primary">Learning the code</button>
+    <p class="hint">Starts with two characters and adds the next one automatically when you are ready.</p>
+    <button id="btn-onboard-know">I already know the code</button>
+    <p class="hint">Drills all letters and digits and shows which ones are still slow.</p>
+    <p class="hint">You can change either choice later in Settings.</p>
+  </div>
+</div>
 <main>
   <section id="view-drill" class="view active">
     <div class="status-row">
@@ -31,7 +42,7 @@
     </div>
     <div id="prompt" class="prompt">
       <div id="prompt-main">Tap Start</div>
-      <div id="prompt-sub">Level <span id="level-label">1</span><span id="focus-tag" class="hidden"> &middot; Focus</span></div>
+      <div id="prompt-sub">Level <span id="level-label">1</span><span id="focus-tag" class="hidden"> &middot; Focus</span> <span id="prompt-sub-note"></span></div>
     </div>
     <div class="controls">
       <button id="btn-start" class="primary">Start</button>
@@ -100,6 +111,7 @@
     <label>Keypad layout
       <select id="set-layout"><option value="qwerty">QWERTY</option><option value="koch">Koch order</option></select>
     </label>
+    <label class="check"><input type="checkbox" id="set-autopromote"> Add the next character automatically when ready</label>
     <label class="check"><input type="checkbox" id="set-showanswer"> Show correct character after a miss</label>
     <label class="check"><input type="checkbox" id="set-sound"> Sound feedback on wrong answer</label>
     <p class="hint">Koch order: <span id="koch-order"></span></p>
@@ -119,7 +131,7 @@
     <h2>Levels</h2>
     <p>The level is how many characters are in play, taken in Koch order: K M R S U A P T L O W I . N J E F 0 Y , V G 5 / Q 9 Z H 3 8 B ? 4 2 7 C 1 D 6 X. There are two ways to use it:</p>
     <ul>
-      <li><b>Koch method.</b> Start at level 2. When every character in play has enough trials, 90% accuracy, and a reaction time close to your fastest, a banner on the Drill tab offers to add the next character. Tap <b>Add it</b>. Repeat until you have them all.</li>
+      <li><b>Koch method.</b> Start at level 2. When every character in play has enough trials, 90% accuracy, and a reaction time close to your fastest, the next character is added at the end of the session and played once so you hear it. If automatic adding is switched off in Settings, a banner offers <b>Add it</b> instead.</li>
       <li><b>All at once.</b> If you already know the code and want to find your weak spots, tap <b>All characters</b> in Settings. The app drills everything and the Stats tab shows what lags.</li>
     </ul>
     <p>You can also drag the level slider in Settings to any point. Punctuation can be switched off to keep just letters and digits.</p>

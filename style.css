@@ -46,3 +46,9 @@ label.check { color: var(--fg); } label.check input { margin-right: 8px; }
 .help p, .help li { font-size: 15px; line-height: 1.45; color: var(--fg); }
 .help ul { padding-left: 20px; margin: 6px 0; }
 .help b { font-weight: 600; }
+.onboard { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+.onboard .card { background: var(--panel); border-radius: 14px; padding: 20px; max-width: 360px; width: 100%; }
+.onboard h2 { margin: 0 0 6px; font-size: 20px; }
+.onboard button { width: 100%; margin-top: 10px; padding: 14px; }
+.onboard .hint { margin: 6px 0 0; }
+#prompt-sub-note { color: var(--good); }
