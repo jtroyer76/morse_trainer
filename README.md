@@ -2,6 +2,9 @@
 
 Browser drill for instant character recognition (ICR) in Morse code.
 
+**Use it here: <https://jtroyer76.github.io/morse_trainer/>** It runs in any modern
+browser and installs as an app on a phone or PC.
+
 - Koch order, one character at a time. Add the next when the current set is solid.
 - Character speed 25 WPM by default. No Farnsworth; ICR does not form at slow speeds.
 - Reaction time is measured from the **end of the last element** to your tap or keypress.
@@ -12,7 +15,7 @@ Browser drill for instant character recognition (ICR) in Morse code.
 - The app suggests adding the next character when every active character has at least
   10 trials, 90% accuracy, and a median within 150 ms of the floor.
 
-## Run
+## Run locally
 
 Any static server works. From this folder:
 
